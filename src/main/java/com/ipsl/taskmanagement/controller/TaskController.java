@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,14 +19,17 @@ import java.util.List;
 @Validated
 public class TaskController {
     private final TaskService taskService;
+    private final AuthenticationManager authenticationManager;
 
     @Autowired
-    public TaskController(TaskService taskService) {
+    public TaskController(TaskService taskService, AuthenticationManager authenticationManager) {
         this.taskService = taskService;
+        this.authenticationManager = authenticationManager;
     }
 
     @GetMapping
     public ResponseEntity<?> getAllTasks() {
+
         List<Task> taskList = taskService.getAllTasks();
         if (taskList.isEmpty()) {
             ErrorResponses errorResponses = new ErrorResponses(HttpStatus.NO_CONTENT.value(), "No Content found");
@@ -48,6 +52,7 @@ public class TaskController {
 
     @PostMapping
     public ResponseEntity<?> saveTasks(@RequestBody Task task) {
+
         Task task1 = taskService.saveTasks(task);
         if (task1 == null) {
             ErrorResponses errorResponses = new ErrorResponses(HttpStatus.BAD_REQUEST.value(), "Task Not Saved");
