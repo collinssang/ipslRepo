@@ -17,6 +17,9 @@ endpoints in the project from
 # deleting tasks,
 
 
+The collection of the endpoint is at the root of the project folder. import it to your postman 
+and run the collection
+
 from the cloned repo execute the sql file in the root of the project folder
 after creating your preferred db. or simply create DB in your mysql server
 then go to application.properties to set the db connections configuration details
